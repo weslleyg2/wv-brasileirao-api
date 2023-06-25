@@ -1,10 +1,13 @@
 package WV.webscraping.com.brasileiraoapi.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +19,9 @@ public class ScrapingUtil {
 
 	private static final String BASE_URL_GOOGLE = "https://www.google.com/search?q=";
 	private static final String COMPLEMENTO_URL_GOOGLE = "&hl=pt-BR";
+	
+	private static final String CASA = "casa";
+	private static final String VISITANTE = "Visitante";
 
 	public static void main(String[] args) {
 		String url = BASE_URL_GOOGLE + "fluminense+x+bahia" + COMPLEMENTO_URL_GOOGLE;
@@ -41,7 +47,24 @@ public class ScrapingUtil {
 			if (statusPartida != StatusPartida.PARTIDA_NAO_INICIADA) {
 				String tempoPartida = obtemTempoPartida(document);
 				LOGGER.info("Tempo partida: {}", tempoPartida);
-
+				
+				Integer placarEquipeCasa = recuperaPlacarEquipeCasa(document);
+				LOGGER.info("Placar Equipe Casa: {}", placarEquipeCasa);
+				
+				Integer placarEquipeVisitante = recuperaPlacarEquipeVisitante(document);
+				LOGGER.info("Placar Equipe Visitante: {}", placarEquipeVisitante);
+				
+				String golsEquipeCasa = recuperaGolsEquipeCasa(document);
+				LOGGER.info("Gols Equipe Casa: {}", golsEquipeCasa);
+	
+				String golsEquipeVisitante = recuperaGolsEquipeVisitante(document);
+				LOGGER.info("Gols Equipe Visitante: {}", golsEquipeVisitante);
+				
+				Integer placarEstendidoEquipeCasa = buscaPenalidades(document, CASA);
+				LOGGER.info("Placar Estendido Equipe Casa: {}", placarEstendidoEquipeCasa);
+				
+				Integer placarEstendidoEquipeVisitante = buscaPenalidades(document, VISITANTE);
+				LOGGER.info("Placar Estendido Equipe Visitante: {}", placarEstendidoEquipeVisitante);
 			}
 
 			String nomeEquipeCasa = recuperaNomeEquipeCasa(document);
@@ -149,6 +172,62 @@ public class ScrapingUtil {
 		}
 
 		return urlLogo;
+	}
+	public Integer recuperaPlacarEquipeCasa(Document document){
+		String placarEquipe = document.selectFirst("div[class=imso_mh__l-tm-sc imso_mh__scr-it imso-light-font]").text();
+		return formataPlacarStringInteger(placarEquipe);
+	}
+	
+	public Integer recuperaPlacarEquipeVisitante(Document document){
+		String placarEquipe = document.selectFirst("div[class=imso_mh__r-tm-sc imso_mh__scr-it imso-light-font]").text();
+		return formataPlacarStringInteger(placarEquipe);
+	}
+	public String recuperaGolsEquipeCasa(Document document) {
+		List<String> golsEquipe = new ArrayList<>();
+		
+		Elements elementos = document.select("div[class=imso_gs__tgs imso_gs__left-team]").select("div[class=imso_gs__gs-r]");
+		for(Element e : elementos) {
+			String infoGol = e.select("div[class=imso_gs__gs-r]").text();
+			golsEquipe.add(infoGol);
+		}
+		
+		return String.join(", ", golsEquipe);
+		
+	}
+	
+	public String recuperaGolsEquipeVisitante(Document document) {
+		List<String> golsEquipe = new ArrayList<>();
+		
+		Elements elementos = document.select("div[class=imso_gs__tgs imso_gs__right-team]").select("div[class=imso_gs__gs-r]");
+		for(Element e : elementos) {
+			String infoGol = e.select("div[class=imso_gs__gs-r]").text();
+			golsEquipe.add(infoGol);
+		}
+		
+		return String.join(", ", golsEquipe);
+		
+	}
+	public Integer buscaPenalidades(Document document, String tipoEquipe) {
+		boolean isPenalidades = document.select("div[class=imso_mh_s__psn-sc]").isEmpty();
+		
+		if(!isPenalidades) {
+			String penalidades = document.select("div[class=imso_mh_s__psn-sc]").text();
+			String penalidadesCompleta = penalidades.substring(0,5).replace(" ", "");
+			String[] divisao = penalidadesCompleta.split("-");
+			
+			return tipoEquipe.equals(CASA) ? formataPlacarStringInteger(divisao[0]) : formataPlacarStringInteger(divisao[1]);
+		}
+		return null;
+	}
+	
+	public Integer formataPlacarStringInteger(String placar) {
+		Integer valor;
+		try {
+			valor = Integer.parseInt(placar);
+		} catch (Exception e) {
+			valor = 0;
+		}
+		return valor;
 	}
 
 }
