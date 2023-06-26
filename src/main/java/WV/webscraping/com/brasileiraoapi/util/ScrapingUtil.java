@@ -1,4 +1,4 @@
-package WV.webscraping.com.brasileiraoapi.util;
+package wv.webscraping.com.brasileiraoapi.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import WV.webscraping.com.brasileiraoapi.dto.PartidaGoogleDTO;
+import wv.webscraping.com.brasileiraoapi.dto.PartidaGoogleDTO;
 @Service
 public class ScrapingUtil {
 

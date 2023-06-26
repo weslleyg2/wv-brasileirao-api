@@ -1,4 +1,4 @@
-package WV.webscraping.com.brasileiraoapi.dto;
+package wv.webscraping.com.brasileiraoapi.dto;
 
 import java.io.Serializable;
 
