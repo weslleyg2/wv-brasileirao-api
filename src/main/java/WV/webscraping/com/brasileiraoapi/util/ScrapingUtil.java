@@ -44,11 +44,11 @@ public class ScrapingUtil {
 	private static final String SPAN = "span";
 	private static final String PENALTIS = "Pênaltis";
 
-	public PartidaGoogleDTO obtemInformacoesPartida(String url) {
-		PartidaGoogleDTO partida = new PartidaGoogleDTO();
-
+	public PartidaGoogleDTO obtemInformacoesGoogle(String url) {
 		Document document = null;
 
+		PartidaGoogleDTO partida = new PartidaGoogleDTO();
+		
 		try {
 			LOGGER.info(url);
 			// conecta no site

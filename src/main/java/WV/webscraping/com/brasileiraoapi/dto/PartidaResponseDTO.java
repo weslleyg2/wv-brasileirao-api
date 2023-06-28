@@ -17,6 +17,6 @@ public class PartidaResponseDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<Partida> equipes;
+	private List<Partida> partidas;
 
 }
