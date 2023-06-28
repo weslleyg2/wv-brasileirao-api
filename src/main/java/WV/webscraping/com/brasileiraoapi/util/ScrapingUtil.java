@@ -36,9 +36,9 @@ public class ScrapingUtil {
 	private static final String ITEM_GOL = "div[class=imso_gs__gs-r]";
 	private static final String DIV_PENALIDADES = "div[class=imso_mh_s__psn-sc]";
 	
-	private static final String CASA = "casa";
-	private static final String VISITANTE = "Visitante";
-	private static final String HTTP = "https:";
+	private static final String CASA = "CASA";
+	private static final String VISITANTE = "VISITANTE";
+	private static final String HTTPS = "https:";
 	private static final String SRC = "src";
 	private static final String DATA_ORIGINAL_SRC = "data-original-src";
 	private static final String SPAN = "span";
@@ -50,6 +50,8 @@ public class ScrapingUtil {
 		Document document = null;
 
 		try {
+			LOGGER.info(url);
+			// conecta no site
 			document = Jsoup.connect(url).get();
 
 			String title = document.title();
@@ -178,9 +180,9 @@ public class ScrapingUtil {
 
 		String urlLogo;
 		if (imgElement.hasAttr(DATA_ORIGINAL_SRC)) {
-			urlLogo = HTTP + imgElement.attr(DATA_ORIGINAL_SRC);
+			urlLogo = HTTPS + imgElement.attr(DATA_ORIGINAL_SRC);
 		} else {
-			urlLogo = HTTP + imgElement.attr(SRC);
+			urlLogo = HTTPS + imgElement.attr(SRC);
 		}
 
 		return urlLogo;

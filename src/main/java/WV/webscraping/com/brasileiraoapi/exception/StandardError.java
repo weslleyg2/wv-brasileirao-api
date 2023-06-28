@@ -14,10 +14,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StandardError implements Serializable{
-
-	private static final long seiralVersionUID = 1L;
+public class StandardError implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	private Long timestamp;
 	private Integer status;
 	private String error;
@@ -32,4 +32,5 @@ public class StandardError implements Serializable{
 		this.message = message;
 		this.path = path;
 	}
+
 }

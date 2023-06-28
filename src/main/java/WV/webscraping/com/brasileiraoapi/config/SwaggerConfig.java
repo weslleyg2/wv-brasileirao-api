@@ -1,11 +1,11 @@
 package wv.webscraping.com.brasileiraoapi.config;
 
+import static springfox.documentation.builders.RequestHandlerSelectors.basePackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -24,21 +24,21 @@ public class SwaggerConfig {
     private static final String CONTATO_EMAIL = "weslleyvander2009@gmail.com";
 
     @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(buildApiInfo());
-    }
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(basePackage(BASE_PACKAGE))
+				.paths(PathSelectors.any())
+				.build()
+				.apiInfo(buildApiInfo());
+	}
 
-    private ApiInfo buildApiInfo() {
-        return new ApiInfoBuilder()
-                .title(API_TITULO)
-                .description(API_DESCRICAO)
-                .version(API_VERSAO)
-                .contact(new Contact(CONTATO_NOME, CONTATO_GITHUB, CONTATO_EMAIL))
-                .build();
-    }
+	private ApiInfo buildApiInfo() {
+		return new ApiInfoBuilder()
+				.title(API_TITULO)
+				.description(API_DESCRICAO)
+				.version(API_VERSAO)
+				.contact(new Contact(CONTATO_NOME, CONTATO_GITHUB, CONTATO_EMAIL))
+				.build();
+	}
 }
