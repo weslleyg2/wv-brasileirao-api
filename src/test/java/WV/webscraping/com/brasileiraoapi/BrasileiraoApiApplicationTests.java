@@ -1,4 +1,4 @@
-package WV.webscraping.com.brasileiraoapi;
+package wv.webscraping.com.brasileiraoapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
