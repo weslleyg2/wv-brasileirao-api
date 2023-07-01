@@ -1,4 +1,4 @@
-package WV.webscraping.com.brasileiraoapi.util;
+package wv.webscraping.com.brasileiraoapi.util;
 
 public enum StatusPartida {
 	PARTIDA_NAO_INICIADA,
